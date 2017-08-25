@@ -1,2 +1,1 @@
-# rudolph
-Dual Quaternion Kalman Filter libary
+# rudolph - Dual Quaternion Kalman Filtering Library
