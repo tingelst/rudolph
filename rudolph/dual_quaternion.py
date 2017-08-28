@@ -99,7 +99,7 @@ class DualQuaternion(object):
         return DualQuaternion(self.real.conj, self.dual.conj)
 
     def __mul__(self, other):
-        if isinstance(other, (float, np.float64)):
+        if isinstance(other, (float, np.float32)):
             other = DualQuaternion(Quaternion(other, 0, 0, 0), Quaternion())
         return DualQuaternion(self.real * other.real,
                               self.real * other.dual + self.dual * other.real)

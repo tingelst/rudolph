@@ -18,16 +18,16 @@ from .quaternion import Quaternion
 from .dual_quaternion import DualQuaternion, recover
 
 Q = np.diag([0, 0, 0, 0, 0, 0, 0.0011, 0.0011,
-             0.0011, 0.00002, 0.00002, 0.00002])
+             0.0011, 0.00002, 0.00002, 0.00002]).astype(np.float32)
 
 R = np.diag([0.0000003513, 0.00000259, 0.000003196,
-             0.00000547, 0.00000498, 0.0001018])
+             0.00000547, 0.00000498, 0.0001018]).astype(np.float32)
 
 G = np.eye(12)
 G[:6, :6] *= -0.5
 
 H = np.zeros((6, 12))
-H[:6, :6] = np.eye(6).astype(np.float)
+H[:6, :6] = np.eye(6).astype(np.float32)
 
 
 def get_F(w):
@@ -48,7 +48,7 @@ def time_propagation(P, X, t):
     dq = X.x.conj * X.dx * -0.5
     q = (X.x + dq * t).normalized()
 
-    F = get_F(X.dx.vskew)
+    F = get_F(-X.dx.vskew)
 
     dP = F @ P + P @ F.T + G @ Q @ G.T
 
@@ -59,6 +59,7 @@ def time_propagation(P, X, t):
 
 def measurement_update(meas, P, X):
     K = P @ H.T @ np.linalg.inv(H @ P @ H.T + R)
+
     err = X.x.conj * meas
     err_red = err.v
     delta_err = K @ err_red

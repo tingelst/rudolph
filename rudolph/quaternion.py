@@ -24,7 +24,7 @@ def skew(v):
 
 class Quaternion(object):
     def __init__(self, q0=0, q1=0, q2=0, q3=0):
-        self._data = np.array([q0, q1, q2, q3]).flatten().astype(np.float32)
+        self._data = np.array([q0, q1, q2, q3]).flatten()
 
     @property
     def left_matrix(self):
