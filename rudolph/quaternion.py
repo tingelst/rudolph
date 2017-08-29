@@ -26,6 +26,10 @@ class Quaternion(object):
     def __init__(self, q0=0, q1=0, q2=0, q3=0):
         self._data = np.array([q0, q1, q2, q3]).flatten()
 
+    @classmethod
+    def from_array(cls, arr):
+        return Quaternion(*arr[:4])
+
     @property
     def left_matrix(self):
         q0, q1, q2, q3 = self._data

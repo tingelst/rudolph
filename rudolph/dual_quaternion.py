@@ -30,9 +30,14 @@ def recover(v):
 
 
 class DualQuaternion(object):
-    def __init__(self, qreal=Quaternion(), qdual=Quaternion()):
-        self._real = qreal
-        self._dual = qdual
+    def __init__(self, real=Quaternion(), dual=Quaternion()):
+        self._real = real
+        self._dual = dual
+
+    @classmethod
+    def from_array(cls, arr):
+        return cls(Quaternion.from_array(arr[:4]),
+                   Quaternion.from_array(arr[4:]))
 
     @property
     def real(self):

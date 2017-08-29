@@ -28,7 +28,7 @@ d = []
 filts2 = np.loadtxt('../../DQ_filter_lib/filts.txt')
 xyzs = []
 for f in filts2:
-     xyzs.append(DQuat(Quat(*f[:4]), Quat(*f[4:8])).trs().v.flatten())
+     xyzs.append(DQuat.from_array(f).trs().v.flatten())
 
 xyzs = np.array(xyzs).reshape(-1,3)
 
@@ -39,15 +39,14 @@ t_s = t[0]
 for x in range(1, 197):
     X, P = time_propagation(P, X, t[x] - t_s)
     q = q_icp[x - 1]
-    meas = DQuat(Quat(*q[:4]), Quat(*q[4:]))
+    meas = DQuat.from_array(q)
     X, P = measurement_update(meas, P, X)
 
-
-
-    print(X.x)
-    print(meas)
-    print(DQuat(Quat(*filts2[x-1][:4]), Quat(*filts2[x-1][4:8])))
-    print()
+    # print(X.x)
+    # print(meas)
+    # print(DQuat.from_array(filts2[x-1]))
+    # print(DQuat(Quat(*filts2[x-1][:4]), Quat(*filts2[x-1][4:8])))
+    # print()
 
     filts.append(X.x.trs().v)
     measts.append(meas.trs().v)
